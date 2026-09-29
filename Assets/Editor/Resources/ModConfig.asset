@@ -18,4 +18,4 @@ MonoBehaviour:
     want to know...\n\r\nModule ID: spangledStars\nThe manual can be found here: https://ktane.timwi.de/HTML/Spangled%20Stars.html"
   version: 
   outputFolder: build
-  previewImage: {fileID: 2800000, guid: 15dadc6a3b5448242b9fcc6c323d5475, type: 3}
+  previewImage: {fileID: 2800000, guid: a83a27c325b58ae4c92a05e6ce50bc45, type: 3}

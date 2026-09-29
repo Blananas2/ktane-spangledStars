@@ -31,7 +31,7 @@ public class spangledStarsScript : MonoBehaviour {
     int ModNames = 0;
     string KeyOrder = "";
     string Words = "O#SCYSBTDELLWSPLWHATTLLGIWBSABSTTPILFOTRPWWWSGLLSIATRERGTBBSIAGPTTNTOFWSTOSDTTSSGBNEYTWVOTLNOTFATHOTB";
-    string Keys =  "gecegcedcefgggedcbcbccegcgecegcedcefgggedcbabccegceeefggfedefffedcbabcefggcccbaaadfedccbggcdefgcdefdc";
+    string Keys =  "gecegcedcefgggedcbcbccgecgecegcedcefgggedcbabccgeceeefggfedefffedcbabcefggcccbaaadfedccbggcdefgcdefdc";
     string UsedWords = "";
     string UsedKeys = "";
     string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -172,21 +172,6 @@ public class spangledStarsScript : MonoBehaviour {
 
         Debug.LogFormat("[Spangled Stars #{0}] Caesar offset: {1}", moduleId, Offset);
 
-/*
-        for (int i = 0; i < 3; i++) {
-            switch (UsedKeys[i]) {
-                case 'c': CenterLetter.text = CenterLetter.text + Caesar(UsedWords[i]); break;
-                case 'd': CenterLetter.text = CenterLetter.text + Caesar(UsedWords[i]); break;
-                case 'e': CenterLetter.text = CenterLetter.text + Caesar(UsedWords[i]); break;
-                case 'f': CenterLetter.text = CenterLetter.text + Caesar(UsedWords[i]); break;
-                case 'g': CenterLetter.text = CenterLetter.text + Caesar(UsedWords[i]); break;
-                case 'a': CenterLetter.text = CenterLetter.text + Caesar(UsedWords[i]); break;
-                case 'b': CenterLetter.text = CenterLetter.text + Caesar(UsedWords[i]); break;
-                default: break;
-            }
-        }
-*/
-
         StartCoroutine(Flashing());
     }
 
@@ -194,16 +179,7 @@ public class spangledStarsScript : MonoBehaviour {
         star.AddInteractionPunch();
         for (int i = 0; i < 7; i++) {
             if (star == Stars[i]) {
-                switch (KeyOrder[ColorOrder[i]].ToString()) {
-                    case "C": Audio.PlaySoundAtTransform("C", transform); break;
-                    case "D": Audio.PlaySoundAtTransform("D", transform); break;
-                    case "E": Audio.PlaySoundAtTransform("E", transform); break;
-                    case "F": Audio.PlaySoundAtTransform("F", transform); break;
-                    case "G": Audio.PlaySoundAtTransform("G", transform); break;
-                    case "A": Audio.PlaySoundAtTransform("A", transform); break;
-                    case "B": Audio.PlaySoundAtTransform("B", transform); break;
-                    default: break;
-                }
+                Audio.PlaySoundAtTransform(KeyOrder[ColorOrder[i]].ToString(), transform);
                 Input += KeyOrder[ColorOrder[i]].ToString().ToLower();
                 Presses += 1;
                 if (Presses == 3) {
@@ -224,81 +200,18 @@ public class spangledStarsScript : MonoBehaviour {
     }
 
     IEnumerator Flashing () {
-        switch (UsedKeys[0]) {
-            case 'c': Stars[StarsToKeys.IndexOf('C')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            case 'd': Stars[StarsToKeys.IndexOf('D')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            case 'e': Stars[StarsToKeys.IndexOf('E')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            case 'f': Stars[StarsToKeys.IndexOf('F')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            case 'g': Stars[StarsToKeys.IndexOf('G')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            case 'a': Stars[StarsToKeys.IndexOf('A')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            case 'b': Stars[StarsToKeys.IndexOf('B')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            default: break;
+        for (int x = 0; x < 3; x++)
+        {
+            Stars[StarsToKeys.IndexOf(UsedKeys[x].ToString().ToUpperInvariant())].GetComponent<MeshRenderer>().material = Colors[7];
+            CenterLetter.text = Caesar(UsedWords[x]).ToString();
+            CenterLetter.color = ColorsForText[ColorOrder[StarsToKeys.IndexOf(UsedKeys[x].ToString().ToUpperInvariant())]];
+            yield return new WaitForSeconds(0.5f);
+            //trust me when i say what came before this is worse, check the github
+            Stars[StarsToKeys.IndexOf(UsedKeys[x].ToString().ToUpperInvariant())].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf(UsedKeys[x].ToString().ToUpperInvariant())]];
+            CenterLetter.text = null;
+            yield return new WaitForSeconds(0.1f);   
         }
-        CenterLetter.text = Caesar(UsedWords[0]).ToString();
-        CenterLetter.color = ColorsForText[ColorOrder[StarsToKeys.IndexOf(UsedKeys[0].ToString().ToUpperInvariant())]];
-        yield return new WaitForSeconds(0.5f);
-        switch (UsedKeys[0]) {
-            case 'c': Stars[StarsToKeys.IndexOf('C')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('C')]]; break;
-            case 'd': Stars[StarsToKeys.IndexOf('D')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('D')]]; break;
-            case 'e': Stars[StarsToKeys.IndexOf('E')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('E')]]; break;
-            case 'f': Stars[StarsToKeys.IndexOf('F')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('F')]]; break;
-            case 'g': Stars[StarsToKeys.IndexOf('G')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('G')]]; break;
-            case 'a': Stars[StarsToKeys.IndexOf('A')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('A')]]; break;
-            case 'b': Stars[StarsToKeys.IndexOf('B')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('B')]]; break;
-            default: break;
-        }
-        CenterLetter.text = null;
-        yield return new WaitForSeconds(0.1f);
-        switch (UsedKeys[1]) {
-            case 'c': Stars[StarsToKeys.IndexOf('C')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            case 'd': Stars[StarsToKeys.IndexOf('D')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            case 'e': Stars[StarsToKeys.IndexOf('E')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            case 'f': Stars[StarsToKeys.IndexOf('F')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            case 'g': Stars[StarsToKeys.IndexOf('G')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            case 'a': Stars[StarsToKeys.IndexOf('A')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            case 'b': Stars[StarsToKeys.IndexOf('B')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            default: break;
-        }
-        CenterLetter.text = Caesar(UsedWords[1]).ToString();
-        CenterLetter.color = ColorsForText[ColorOrder[StarsToKeys.IndexOf(UsedKeys[1].ToString().ToUpperInvariant())]];
-        yield return new WaitForSeconds(0.5f);
-        switch (UsedKeys[1]) {
-            case 'c': Stars[StarsToKeys.IndexOf('C')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('C')]]; break;
-            case 'd': Stars[StarsToKeys.IndexOf('D')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('D')]]; break;
-            case 'e': Stars[StarsToKeys.IndexOf('E')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('E')]]; break;
-            case 'f': Stars[StarsToKeys.IndexOf('F')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('F')]]; break;
-            case 'g': Stars[StarsToKeys.IndexOf('G')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('G')]]; break;
-            case 'a': Stars[StarsToKeys.IndexOf('A')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('A')]]; break;
-            case 'b': Stars[StarsToKeys.IndexOf('B')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('B')]]; break;
-            default: break;
-        }
-        CenterLetter.text = null;
-        yield return new WaitForSeconds(0.1f);
-        switch (UsedKeys[2]) {
-            case 'c': Stars[StarsToKeys.IndexOf('C')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            case 'd': Stars[StarsToKeys.IndexOf('D')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            case 'e': Stars[StarsToKeys.IndexOf('E')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            case 'f': Stars[StarsToKeys.IndexOf('F')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            case 'g': Stars[StarsToKeys.IndexOf('G')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            case 'a': Stars[StarsToKeys.IndexOf('A')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            case 'b': Stars[StarsToKeys.IndexOf('B')].GetComponent<MeshRenderer>().material = Colors[7]; break;
-            default: break;
-        }
-        CenterLetter.text = Caesar(UsedWords[2]).ToString();
-        CenterLetter.color = ColorsForText[ColorOrder[StarsToKeys.IndexOf(UsedKeys[2].ToString().ToUpperInvariant())]];
-        yield return new WaitForSeconds(0.5f);
-        switch (UsedKeys[2]) {
-            case 'c': Stars[StarsToKeys.IndexOf('C')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('C')]]; break;
-            case 'd': Stars[StarsToKeys.IndexOf('D')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('D')]]; break;
-            case 'e': Stars[StarsToKeys.IndexOf('E')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('E')]]; break;
-            case 'f': Stars[StarsToKeys.IndexOf('F')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('F')]]; break;
-            case 'g': Stars[StarsToKeys.IndexOf('G')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('G')]]; break;
-            case 'a': Stars[StarsToKeys.IndexOf('A')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('A')]]; break;
-            case 'b': Stars[StarsToKeys.IndexOf('B')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('B')]]; break;
-            default: break;
-        }
-        CenterLetter.text = null;
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(0.7f);
         StartCoroutine(Flashing());
     }
 
