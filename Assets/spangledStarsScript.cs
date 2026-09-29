@@ -14,10 +14,11 @@ public class spangledStarsScript : MonoBehaviour {
 
     public KMSelectable[] Stars;
     public Material[] Colors; //ROYGBIVW
-    public TextMesh[] OutsideLetters;
-    public TextMesh[] InsideLetters;
+    public TextMesh CenterLetter;
+    public TextMesh[] ColorblindLetters;
     public GameObject Front;
     public GameObject Back;
+    public Color[] ColorsForText;
 
     private List<int> ColorOrder = new List<int>{0,1,2,3,4,5,6};
     //private List<string> ModNames = new List<string>{};
@@ -65,13 +66,13 @@ public class spangledStarsScript : MonoBehaviour {
             Stars[i].GetComponent<MeshRenderer>().material = Colors[ColorOrder[i]];
             if (CBactive) {
                 switch (ColorOrder[i]) {
-                    case 0: InsideLetters[i].text = "R"; break;
-                    case 1: InsideLetters[i].text = "O"; break;
-                    case 2: InsideLetters[i].text = "Y"; break;
-                    case 3: InsideLetters[i].text = "G"; break;
-                    case 4: InsideLetters[i].text = "B"; break;
-                    case 5: InsideLetters[i].text = "I"; break;
-                    case 6: InsideLetters[i].text = "V"; break;
+                    case 0: ColorblindLetters[i].text = "R"; break;
+                    case 1: ColorblindLetters[i].text = "O"; break;
+                    case 2: ColorblindLetters[i].text = "Y"; break;
+                    case 3: ColorblindLetters[i].text = "G"; break;
+                    case 4: ColorblindLetters[i].text = "B"; break;
+                    case 5: ColorblindLetters[i].text = "I"; break;
+                    case 6: ColorblindLetters[i].text = "V"; break;
                     default: break;
                 }
             }
@@ -171,18 +172,20 @@ public class spangledStarsScript : MonoBehaviour {
 
         Debug.LogFormat("[Spangled Stars #{0}] Caesar offset: {1}", moduleId, Offset);
 
+/*
         for (int i = 0; i < 3; i++) {
             switch (UsedKeys[i]) {
-                case 'c': OutsideLetters[StarsToKeys.IndexOf('C')].text = OutsideLetters[StarsToKeys.IndexOf('C')].text + Caesar(UsedWords[i]); break;
-                case 'd': OutsideLetters[StarsToKeys.IndexOf('D')].text = OutsideLetters[StarsToKeys.IndexOf('D')].text + Caesar(UsedWords[i]); break;
-                case 'e': OutsideLetters[StarsToKeys.IndexOf('E')].text = OutsideLetters[StarsToKeys.IndexOf('E')].text + Caesar(UsedWords[i]); break;
-                case 'f': OutsideLetters[StarsToKeys.IndexOf('F')].text = OutsideLetters[StarsToKeys.IndexOf('F')].text + Caesar(UsedWords[i]); break;
-                case 'g': OutsideLetters[StarsToKeys.IndexOf('G')].text = OutsideLetters[StarsToKeys.IndexOf('G')].text + Caesar(UsedWords[i]); break;
-                case 'a': OutsideLetters[StarsToKeys.IndexOf('A')].text = OutsideLetters[StarsToKeys.IndexOf('A')].text + Caesar(UsedWords[i]); break;
-                case 'b': OutsideLetters[StarsToKeys.IndexOf('B')].text = OutsideLetters[StarsToKeys.IndexOf('B')].text + Caesar(UsedWords[i]); break;
+                case 'c': CenterLetter.text = CenterLetter.text + Caesar(UsedWords[i]); break;
+                case 'd': CenterLetter.text = CenterLetter.text + Caesar(UsedWords[i]); break;
+                case 'e': CenterLetter.text = CenterLetter.text + Caesar(UsedWords[i]); break;
+                case 'f': CenterLetter.text = CenterLetter.text + Caesar(UsedWords[i]); break;
+                case 'g': CenterLetter.text = CenterLetter.text + Caesar(UsedWords[i]); break;
+                case 'a': CenterLetter.text = CenterLetter.text + Caesar(UsedWords[i]); break;
+                case 'b': CenterLetter.text = CenterLetter.text + Caesar(UsedWords[i]); break;
                 default: break;
             }
         }
+*/
 
         StartCoroutine(Flashing());
     }
@@ -231,6 +234,8 @@ public class spangledStarsScript : MonoBehaviour {
             case 'b': Stars[StarsToKeys.IndexOf('B')].GetComponent<MeshRenderer>().material = Colors[7]; break;
             default: break;
         }
+        CenterLetter.text = Caesar(UsedWords[0]).ToString();
+        CenterLetter.color = ColorsForText[ColorOrder[StarsToKeys.IndexOf(UsedKeys[0].ToString().ToUpperInvariant())]];
         yield return new WaitForSeconds(0.5f);
         switch (UsedKeys[0]) {
             case 'c': Stars[StarsToKeys.IndexOf('C')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('C')]]; break;
@@ -242,6 +247,7 @@ public class spangledStarsScript : MonoBehaviour {
             case 'b': Stars[StarsToKeys.IndexOf('B')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('B')]]; break;
             default: break;
         }
+        CenterLetter.text = null;
         yield return new WaitForSeconds(0.1f);
         switch (UsedKeys[1]) {
             case 'c': Stars[StarsToKeys.IndexOf('C')].GetComponent<MeshRenderer>().material = Colors[7]; break;
@@ -253,6 +259,8 @@ public class spangledStarsScript : MonoBehaviour {
             case 'b': Stars[StarsToKeys.IndexOf('B')].GetComponent<MeshRenderer>().material = Colors[7]; break;
             default: break;
         }
+        CenterLetter.text = Caesar(UsedWords[1]).ToString();
+        CenterLetter.color = ColorsForText[ColorOrder[StarsToKeys.IndexOf(UsedKeys[1].ToString().ToUpperInvariant())]];
         yield return new WaitForSeconds(0.5f);
         switch (UsedKeys[1]) {
             case 'c': Stars[StarsToKeys.IndexOf('C')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('C')]]; break;
@@ -264,6 +272,7 @@ public class spangledStarsScript : MonoBehaviour {
             case 'b': Stars[StarsToKeys.IndexOf('B')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('B')]]; break;
             default: break;
         }
+        CenterLetter.text = null;
         yield return new WaitForSeconds(0.1f);
         switch (UsedKeys[2]) {
             case 'c': Stars[StarsToKeys.IndexOf('C')].GetComponent<MeshRenderer>().material = Colors[7]; break;
@@ -275,6 +284,8 @@ public class spangledStarsScript : MonoBehaviour {
             case 'b': Stars[StarsToKeys.IndexOf('B')].GetComponent<MeshRenderer>().material = Colors[7]; break;
             default: break;
         }
+        CenterLetter.text = Caesar(UsedWords[2]).ToString();
+        CenterLetter.color = ColorsForText[ColorOrder[StarsToKeys.IndexOf(UsedKeys[2].ToString().ToUpperInvariant())]];
         yield return new WaitForSeconds(0.5f);
         switch (UsedKeys[2]) {
             case 'c': Stars[StarsToKeys.IndexOf('C')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('C')]]; break;
@@ -286,6 +297,7 @@ public class spangledStarsScript : MonoBehaviour {
             case 'b': Stars[StarsToKeys.IndexOf('B')].GetComponent<MeshRenderer>().material = Colors[ColorOrder[StarsToKeys.IndexOf('B')]]; break;
             default: break;
         }
+        CenterLetter.text = null;
         yield return new WaitForSeconds(0.6f);
         StartCoroutine(Flashing());
     }
@@ -308,7 +320,7 @@ public class spangledStarsScript : MonoBehaviour {
             yield return null;
             CBactive = !CBactive;
             for (int i = 0; i < 7; i++) {
-                InsideLetters[i].text = CBactive ? HowMuchOfAnIdiotAmIMostOfTheseVariableNamesAreConfusingAsFuckWhatIsWrongWithMe[ColorOrder[i]].ToString() : " ";
+                ColorblindLetters[i].text = CBactive ? HowMuchOfAnIdiotAmIMostOfTheseVariableNamesAreConfusingAsFuckWhatIsWrongWithMe[ColorOrder[i]].ToString() : " ";
             }
             yield break;
         }

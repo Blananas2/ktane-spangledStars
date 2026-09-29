@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c60a7534f28b1844e813ee3e9344aa27
+guid: 4d5b6e07c5895e04896f58dc4b7c29cd
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -8,9 +8,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Ink Free
+  fontName: Overpass Mono
   fontNames:
-  - Ink Free
+  - Overpass Mono
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
